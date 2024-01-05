@@ -23,9 +23,9 @@ def save_object(file_path, obj):
 
 def evaluate_models(X_train,y_train,X_test,y_test,models):
     try:
-         test_acc_report={}
+         report={}
          
-         for i in range(len(models)):
+         for i in range(len(list(models))):
              model=list(models.values())[i]
              model.fit(X_train,y_train)
 
@@ -35,10 +35,10 @@ def evaluate_models(X_train,y_train,X_test,y_test,models):
              # Evaluate test data
              test_accuracy=accuracy_score(y_test,y_test_pred)
 
-             test_acc_report[model]=test_accuracy
+             report[list(models.keys())[i]] =test_accuracy
 
 
-             return test_acc_report
+         return report
     except Exception as e:
         raise CustomException(e, sys)
    

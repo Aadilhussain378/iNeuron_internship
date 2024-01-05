@@ -36,25 +36,25 @@ class ModelTrainer:
             
             
             X_train,y_train,X_test,y_test=(
-                train_array[:,:2],
-                train_array[:,1],
-                test_array[:,:2],
-                test_array[:,1]
+                train_array[:,:-1],
+                train_array[:,-1],
+                test_array[:,:-1],
+                test_array[:,-1]
             )
+            
 
-            models={
-
+            models = {
                 "LogisticRegression":LogisticRegression(),
                 "RandomForestClassifier":RandomForestClassifier(),
                 "NaiveBayesClassifier":GaussianNB(),
                 "DecisionTreeClassifier":DecisionTreeClassifier(),
                 "SupportVectorMachine":SVC(),
                 "KNeighborsClassifier":KNeighborsClassifier(),
-                "AdaBoostClassifier":AdaBoostClassifier()
+                "AdaBoostClassifier":AdaBoostClassifier(),
             }
 
-            model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,
-                                              y_test=y_test,models=models)
+            model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
+                                             models=models)
             
             ## Get the best model score from the dict
             best_model_score=max(sorted(model_report.values()))
@@ -63,14 +63,16 @@ class ModelTrainer:
             best_model_name=list(model_report.keys())[
                 list(model_report.values()).index(best_model_score)
             ]
+            
+
 
             best_model=models[best_model_name]
             
-            if best_model_name<0.6:
+            if best_model_score<0.6:
                 raise CustomException("No best model found")
-            else:
-                print(f"Best Model found and Model Name: {best_model} , accuracy score : {best_model_score}")
-                print("\n======================================================================================\n")
+            
+            print(f'Best Model Found , Model Name : {best_model} , accuracy : {best_model_score}')
+            print('\n====================================================================================\n')
 
             logging.info("Best model found on both the training and testing data set")
             save_object(
@@ -78,10 +80,7 @@ class ModelTrainer:
                 obj=best_model
             )
 
-            predicted=best_model.predict(X_test)
-
-            accuracy_score=accuracy_score(y_test,predicted)
-            return accuracy_score
+            
             
             
         except Exception as e:
