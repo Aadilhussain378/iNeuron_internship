@@ -53,8 +53,39 @@ class ModelTrainer:
                 "AdaBoostClassifier":AdaBoostClassifier(),
             }
 
+            params={
+                    "RandomForestClassifier":{
+                    'criterion':['gini', 'log_loss', 'entropy'],
+                    'max_features':['sqrt','log2'],
+                    'n_estimators': [8,16,32,64,128,256] },
+
+                    "DecisionTreeClassifier":{
+                    'criterion':['entropy', 'gini', 'log_loss'],
+                                 'splitter':['best','random'],
+                                'max_features':['sqrt','log2']},
+
+                    "SupportVectorMachine":{
+                            'C': [0.1, 1, 10, 100, 1000], 
+                            'gamma': [1, 0.1, 0.01, 0.001, 0.0001],
+                            'kernel': ['rbf']},
+                        
+                        "KNeighborsClassifier":{'n_neighbors' : [5,7,9,11,13,15],
+                            'weights' : ['uniform','distance'],
+                            'metric' : ['minkowski','euclidean','manhattan']},
+                        
+                        
+                        
+                         "AdaBoostClassifier":{
+                    'learning_rate':[.1,.01,0.5,.001],
+                    'n_estimators': [8,16,32,64,128,256]},
+                        
+                     "LogisticRegression":{},
+                        
+                     "NaiveBayesClassifier":{}
+            }
+
             model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
-                                             models=models)
+                                             models=models,param=params)
             
             ## Get the best model score from the dict
             best_model_score=max(sorted(model_report.values()))
@@ -85,19 +116,3 @@ class ModelTrainer:
             
         except Exception as e:
             raise CustomException(e,sys)
-
-    
-
-
-
-
-    
-      
-        
-            
-
-            
-
-          
-
-               
