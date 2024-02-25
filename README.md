@@ -61,4 +61,4 @@ Here I will tell you, how you can run this project locally.
 * Deployment to AWS: The final step is to deploy the All files to an AWS server. This step is done by us using the ubuntu server where we deployed our model using the winSCP to connect the AWS server(EC2).
 
 ## 🎯Project Created BY
-[@AadilHuusain](https://www.linkedin.com/in/aadilhussain378/)
+[@AadilHussain](https://www.linkedin.com/in/aadilhussain378/)
